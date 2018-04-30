@@ -13,29 +13,26 @@ class Enemy {
 		this.x = x;
 		this.y = y;
 		this.speed = speed;
-		this.sprite = 'images/enemy-bug.png';
+        this.sprite = 'images/enemy-bug.png';
     }
-    giveX(){
-        return this.x;
-    }
+    
 }
 
-const enemy1 = new Enemy (-100, 135, 150);
-const enemy2 = new Enemy (-300, 135, 150);
-const enemy3 = new Enemy (-600, 135, 150);
-const enemy4 = new Enemy (-850, 135, 150);
-const enemy5 = new Enemy (-200, 220, 300);
-const enemy6 = new Enemy (-500, 220, 300);
-const enemy7 = new Enemy (-700, 220, 300);
-const enemy8 = new Enemy (250, 305, 20);
-const enemy9 = new Enemy (100, 305, 20);
-const enemy10 = new Enemy (-70, 305, 20);
-const enemy11 = new Enemy (-350, 305, 20);
+const enemy1 = new Enemy (-100, 60, 150);
+const enemy2 = new Enemy (-300, 60, 150);
+const enemy3 = new Enemy (-600, 60, 150);
+const enemy4 = new Enemy (-850, 60, 150);
+const enemy5 = new Enemy (-200, 142, 300);
+const enemy6 = new Enemy (-500, 142, 300);
+const enemy7 = new Enemy (-700, 142, 300);
+const enemy8 = new Enemy (250, 225, 20);
+const enemy9 = new Enemy (100, 225, 20);
+const enemy10 = new Enemy (-70,225, 20);
+const enemy11 = new Enemy (-350, 225, 20);
 
 
 let allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8, enemy9, enemy10, enemy11];
 
-// console.log(enemy1.giveX())
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
@@ -45,29 +42,14 @@ Enemy.prototype.update = function(dt) {
      }
    
      // Collision detection algorithm from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
-    if
-        (player.x < this.x + 101 &&
-            player.x + 60 > this.x &&
-            player.y < this.y + 40 &&
-            40 + player.y > this.y)
-    {
-        console.log(player.x, this.x, player.y, this.y);
+     if (player.x < this.x + 75 &&
+        player.x + 67 > this.x &&
+        player.y < this.y + 70 &&
+        78 + player.y > this.y)  {
+            player.x = 200;
+            player.y = 380;
 
-        player.x = 200; // STARTING LOCATION AFTER COLLISION OCCURS
-        player.y = 380;
-     }
-    //  if (player.x < this.x + 101 &&
-    //     player.x + player.width){
-    //     console.log('si sirve');
-    //  }
-    // if (player.x < this.x + 70 && player.x + 60 > this.x && player.y < this.y + 40 && player.y + 40 > this.y) {
-    //     player.x = 200; // STARTING LOCATION AFTER COLLISION OCCURS
-    //     player.y = 380;
-        
-    //  }
-    // You should multiply any movement by the dt parameter
-	// which will ensure the game runs at the same speed for
-	// all computers.
+}
 };
 
 // Draw the enemy on the screen, required method for game
@@ -89,9 +71,8 @@ class Player{
         if (this.y < 0){
             this.y = 380;
         }
-        
     }
-        
+
 	render(){
         this.sprite = 'images/char-boy.png';
 		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -134,10 +115,3 @@ document.addEventListener('keyup', function(e) {
     // })
 	player.handleInput(allowedKeys[e.keyCode]);
 });
-
-function checkCollisions(){
-    // for (let enemy of allEnemies){
-    //     enemy = ;
-    // }
-    
-}
