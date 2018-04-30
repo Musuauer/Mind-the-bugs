@@ -173,7 +173,12 @@ var Engine = (function(global) {
 		'images/water-block.png',
 		'images/grass-block.png',
 		'images/enemy-bug.png',
-		'images/char-boy.png'
+        'images/char-horn-girl.png',
+        'images/Frog.png',  //source: http://pngimg.com/download/35719
+        'images/eagle.png',   //source: http://www.pngpix.com/download/bald-eagle-png-transparent-image
+        'images/splash.png',
+
+        
 	]);
 	Resources.onReady(init);
 

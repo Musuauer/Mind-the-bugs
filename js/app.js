@@ -13,7 +13,7 @@ class Enemy {
 		this.x = x;
 		this.y = y;
 		this.speed = speed;
-        this.sprite = 'images/enemy-bug.png';
+        this.sprite = 'images/eagle.png';
     }
     
 }
@@ -22,9 +22,9 @@ const enemy1 = new Enemy (-100, 60, 150);
 const enemy2 = new Enemy (-300, 60, 150);
 const enemy3 = new Enemy (-600, 60, 150);
 const enemy4 = new Enemy (-850, 60, 150);
-const enemy5 = new Enemy (-200, 142, 300);
-const enemy6 = new Enemy (-500, 142, 300);
-const enemy7 = new Enemy (-700, 142, 300);
+const enemy5 = new Enemy (-200, 142, 30);
+const enemy6 = new Enemy (-500, 142, 30);
+const enemy7 = new Enemy (-700, 142, 30);
 const enemy8 = new Enemy (250, 225, 20);
 const enemy9 = new Enemy (100, 225, 20);
 const enemy10 = new Enemy (-70,225, 20);
@@ -42,12 +42,11 @@ Enemy.prototype.update = function(dt) {
      }
    
      // Collision detection algorithm from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
-     if (player.x < this.x + 75 &&
+     if (player.x < this.x + 90 &&
         player.x + 67 > this.x &&
         player.y < this.y + 70 &&
-        78 + player.y > this.y)  {
-            player.x = 200;
-            player.y = 380;
+        83 + player.y > this.y)  {
+            startAgain();
 
 }
 };
@@ -58,9 +57,11 @@ Enemy.prototype.render = function() {
     
 };
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+function startAgain(){
+
+    player.x = 200;
+    player.y = 405;
+}
 class Player{
 	constructor(x, y){
 		this.x = x;
@@ -68,13 +69,16 @@ class Player{
 
 	}
 	update(){
+        this.sprite = 'images/splash.png';
         if (this.y < 0){
-            this.y = 380;
+            console.log('win');
+            ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+            window.setTimeout(startAgain, 2000);
         }
     }
 
 	render(){
-        this.sprite = 'images/char-boy.png';
+        this.sprite = 'images/Frog.png';
 		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
 	}
@@ -94,15 +98,9 @@ class Player{
 
 	}
 }
-const player = new Player(200, 380);
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+const player = new Player(200, 405);
 player.update();
 
-
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
 	var allowedKeys = {
 		37: 'left',
@@ -110,8 +108,5 @@ document.addEventListener('keyup', function(e) {
 		39: 'right',
 		40: 'down'
     };
-    // allEnemies.forEach((e)=>{
-    //     console.log(e.giveX());
-    // })
 	player.handleInput(allowedKeys[e.keyCode]);
 });
