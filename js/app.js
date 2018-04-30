@@ -72,7 +72,7 @@ class Player{
         
         if (this.y < 0){
             console.log('win');
-            this.sprite = 'images/eagle.png';
+            this.sprite = 'images/splash';
 		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
           
            
