@@ -45,7 +45,7 @@ Enemy.prototype.update = function(dt) {
      if (player.x < this.x + 90 &&
         player.x + 67 > this.x &&
         player.y < this.y + 70 &&
-        83 + player.y > this.y)  {
+        50 + player.y > this.y)  {
             startAgain();
 
 }
@@ -69,10 +69,13 @@ class Player{
 
 	}
 	update(){
-        this.sprite = 'images/splash.png';
+        
         if (this.y < 0){
             console.log('win');
-            ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+            this.sprite = 'images/eagle.png';
+		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+          
+           
             window.setTimeout(startAgain, 2000);
         }
     }
