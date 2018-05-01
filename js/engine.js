@@ -153,7 +153,8 @@ var Engine = (function(global) {
 			enemy.render();
 		});
 
-		player.render();
+        player.render();
+        splash.render();
 	}
 
 	/* This function does nothing but it could have been a good place to
@@ -175,8 +176,8 @@ var Engine = (function(global) {
 		'images/enemy-bug.png',
         'images/char-horn-girl.png',
         'images/Frog.png',  //source: http://pngimg.com/download/35719
-        'images/eagle.png',   //source: http://www.pngpix.com/download/bald-eagle-png-transparent-image
-        'images/splash.png',
+        'images/crow.png',   //source: http://pngimg.com/imgs/animals/crow/
+        'images/water-splash.png',
 
         
 	]);

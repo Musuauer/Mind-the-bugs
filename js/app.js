@@ -13,22 +13,23 @@ class Enemy {
 		this.x = x;
 		this.y = y;
 		this.speed = speed;
-        this.sprite = 'images/eagle.png';
+        this.sprite = 'images/crow.png';
+       
     }
     
 }
 
-const enemy1 = new Enemy (-100, 60, 150);
-const enemy2 = new Enemy (-300, 60, 150);
-const enemy3 = new Enemy (-600, 60, 150);
-const enemy4 = new Enemy (-850, 60, 150);
-const enemy5 = new Enemy (-200, 142, 30);
-const enemy6 = new Enemy (-500, 142, 30);
-const enemy7 = new Enemy (-700, 142, 30);
-const enemy8 = new Enemy (250, 225, 20);
+const enemy1 = new Enemy (-100, 60, 80);
+const enemy2 = new Enemy (-300, 60, 80);
+const enemy3 = new Enemy (-600, 60, 100);
+const enemy4 = new Enemy (-850, 60, 20);
+const enemy5 = new Enemy (-200, 142, 180);
+const enemy6 = new Enemy (-500, 142, 150);
+const enemy7 = new Enemy (-700, 142, 180);
+const enemy8 = new Enemy (250, 225, 120);
 const enemy9 = new Enemy (100, 225, 20);
-const enemy10 = new Enemy (-70,225, 20);
-const enemy11 = new Enemy (-350, 225, 20);
+const enemy10 = new Enemy (-70,225, 25);
+const enemy11 = new Enemy (-350, 225, 25);
 
 
 let allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8, enemy9, enemy10, enemy11];
@@ -46,6 +47,9 @@ Enemy.prototype.update = function(dt) {
         player.x + 67 > this.x &&
         player.y < this.y + 70 &&
         50 + player.y > this.y)  {
+
+            var audio = new Audio('Crow.mp3');
+            audio.play();
             startAgain();
 
 }
@@ -56,9 +60,38 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     
 };
+class Splash{
+	constructor(x, y){
+		this.x = x;
+		this.y = y;
 
+	}
+
+	render(){
+        this.sprite = 'images/water-splash.png';
+        
+		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+
+    }
+}
+const splash = new Splash (-2000, 40);
+
+function win(){
+    if (player.y < 0){
+                player.y = -1000;
+                splash.x = player.x;
+
+               var audio = new Audio('splash.mp3');
+               audio.play();
+               console.log('win');
+
+            window.setTimeout(startAgain, 2000);
+    }
+            
+
+}
 function startAgain(){
-
+    splash.x = -2000;
     player.x = 200;
     player.y = 405;
 }
@@ -70,18 +103,11 @@ class Player{
 	}
 	update(){
         
-        if (this.y < 0){
-            console.log('win');
-            this.sprite = 'images/splash';
-		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-          
-           
-            window.setTimeout(startAgain, 2000);
-        }
     }
 
 	render(){
         this.sprite = 'images/Frog.png';
+        
 		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
 	}
@@ -98,7 +124,7 @@ class Player{
         if (allowedKeys ==='down' && this.y < 380) {
             this.y += 83;
         }
-
+        win();
 	}
 }
 const player = new Player(200, 405);
