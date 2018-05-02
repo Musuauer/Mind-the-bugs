@@ -155,6 +155,9 @@ var Engine = (function(global) {
 
         player.render();
         splash.render();
+        allStars.forEach(function(star) {
+			star.render();
+		});
 	}
 
 	/* This function does nothing but it could have been a good place to
@@ -178,6 +181,7 @@ var Engine = (function(global) {
         'images/Frog.png',  //source: http://pngimg.com/download/35719
         'images/crow.png',   //source: http://pngimg.com/imgs/animals/crow/
         'images/water-splash.png',
+        'images/star.png'
 
         
 	]);

@@ -1,24 +1,25 @@
 'use strict';
 
 /* eslint-disable indent */
+//---------------------------modal----------
+const congrats = document.querySelector('.popup');
+//---restart-from-modal
+const closeButton = document.querySelector('.close-button');
+closeButton.addEventListener('click', restartGame);
 
-// Enemies our player must avoid
+
+//---------------ENEMIES-------------------
+
 class Enemy {
-	// Variables applied to each of our instances go here,
-	// we've provided one for you to get started
-
-	// The image/sprite for our enemies, this uses
-	// a helper we've provided to easily load images
 	constructor(x,y,speed){
 		this.x = x;
 		this.y = y;
 		this.speed = speed;
         this.sprite = 'images/crow.png';
-       
     }
-    
 }
 
+//New enemies, organized by row
 const enemy1 = new Enemy (-100, 60, 80);
 const enemy2 = new Enemy (-300, 60, 80);
 const enemy3 = new Enemy (-600, 60, 100);
@@ -31,8 +32,8 @@ const enemy9 = new Enemy (100, 225, 20);
 const enemy10 = new Enemy (-70,225, 25);
 const enemy11 = new Enemy (-350, 225, 25);
 
-
-let allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8, enemy9, enemy10, enemy11];
+// Array of enemies
+const allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8, enemy9, enemy10, enemy11];
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -60,41 +61,9 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     
 };
-class Splash{
-	constructor(x, y){
-		this.x = x;
-		this.y = y;
 
-	}
+//---------------PLAYER-----------------------
 
-	render(){
-        this.sprite = 'images/water-splash.png';
-        
-		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-
-    }
-}
-const splash = new Splash (-2000, 40);
-
-function win(){
-    if (player.y < 0){
-                player.y = -1000;
-                splash.x = player.x;
-
-               var audio = new Audio('splash.mp3');
-               audio.play();
-               console.log('win');
-
-            window.setTimeout(startAgain, 2000);
-    }
-            
-
-}
-function startAgain(){
-    splash.x = -2000;
-    player.x = 200;
-    player.y = 405;
-}
 class Player{
 	constructor(x, y){
 		this.x = x;
@@ -130,12 +99,107 @@ class Player{
 const player = new Player(200, 405);
 player.update();
 
-document.addEventListener('keyup', function(e) {
-	var allowedKeys = {
+//Star image to appear when the player reaches the water
+class Star{
+    constructor(x,y){
+        this.x = x;
+        this.y = -10;
+        this.sprite = 'images/star.png';
+    }
+    moveNewStar(){
+        this.x += 50;
+    }
+    render(){
+        this.sprite = 'images/star.png';
+        
+		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+
+    }
+}
+
+const allStars = [];
+
+//Splash image to show up when player reaches the water
+class Splash{
+	constructor(x, y){
+		this.x = x;
+		this.y = y;
+
+	}
+
+	render(){
+        this.sprite = 'images/water-splash.png';
+        
+		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+
+    }
+}
+const splash = new Splash (-2000, 40);
+function youWon(){
+    toggleModal();
+}
+//Reset player's position if it reaches the water
+function startAgain(){
+    document.addEventListener('keyup', Keystroke);
+    splash.x = -2000;
+    player.x = 200;
+    player.y = 405;
+}
+function win(){
+    if (player.y < 0){
+                player.y = -1000;
+                splash.x = player.x;
+                document.removeEventListener('keyup', Keystroke);
+                
+                if (allStars.length === 0){
+                    let newStar = new Star(0, -10);
+                    allStars.push(newStar);
+                }
+                else if(allStars.length === 1){
+                    let newStar = new Star(0, -10);
+                    newStar.moveNewStar();
+                    allStars.push(newStar);
+                }
+                else if(allStars.length === 2){
+                    let newStar = new Star(0, -10);
+                    newStar.moveNewStar();
+                    newStar.moveNewStar();
+                    allStars.push(newStar); 
+                    window.setTimeout(youWon, 2000);
+                }
+                
+
+
+               var audio = new Audio('splash.mp3');
+               audio.play();
+
+
+            window.setTimeout(startAgain, 2000);
+    }
+            
+
+}
+
+
+// Keystroke listener
+function Keystroke(e){
+    var allowedKeys = {
 		37: 'left',
 		38: 'up',
 		39: 'right',
 		40: 'down'
     };
 	player.handleInput(allowedKeys[e.keyCode]);
-});
+}
+document.addEventListener('keyup', Keystroke);
+
+// -------------------------------------------MODAL-------------------------------------------//
+function toggleModal() {
+	congrats.classList.toggle('show-popup');
+}
+
+// -------------------------------------------RESTART--------------------------------------//
+
+function restartGame() {
+	location.reload();
+}
