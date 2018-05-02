@@ -181,7 +181,7 @@ var Engine = (function(global) {
         'images/Frog.png',  //source: http://pngimg.com/download/35719
         'images/crow.png',   //source: http://pngimg.com/imgs/animals/crow/
         'images/water-splash.png',
-        'images/star.png'
+        'images/Star.png'
 
         
 	]);

@@ -104,13 +104,13 @@ class Star{
     constructor(x,y){
         this.x = x;
         this.y = -10;
-        this.sprite = 'images/star.png';
+        this.sprite = 'images/Star.png';
     }
     moveNewStar(){
         this.x += 50;
     }
     render(){
-        this.sprite = 'images/star.png';
+        this.sprite = 'images/Star.png';
         
 		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
@@ -150,7 +150,7 @@ function win(){
                 player.y = -1000;
                 splash.x = player.x;
                 document.removeEventListener('keyup', Keystroke);
-                
+
                 if (allStars.length === 0){
                     let newStar = new Star(0, -10);
                     allStars.push(newStar);
