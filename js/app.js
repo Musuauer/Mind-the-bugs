@@ -140,7 +140,7 @@ function youWon(){
 }
 //Reset player's position if it reaches the water
 function startAgain(){
-    document.addEventListener('keyup', Keystroke);
+    window.addEventListener('keyup', Keystroke);
     splash.x = -2000;
     player.x = 200;
     player.y = 405;
@@ -149,7 +149,7 @@ function win(){
     if (player.y < 0){
                 player.y = -1000;
                 splash.x = player.x;
-                document.removeEventListener('keyup', Keystroke);
+                window.removeEventListener('keyup', Keystroke);
 
                 if (allStars.length === 0){
                     let newStar = new Star(0, -10);
@@ -191,7 +191,7 @@ function Keystroke(e){
     };
 	player.handleInput(allowedKeys[e.keyCode]);
 }
-document.addEventListener('keyup', Keystroke);
+window.addEventListener('keyup', Keystroke);
 
 // -------------------------------------------MODAL-------------------------------------------//
 function toggleModal() {
