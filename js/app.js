@@ -170,29 +170,29 @@ const splash = new Splash (-2000, 40);
 function createNewStar(allStars){
     let newStar = new Star(0, -10);
         allStars.push(newStar);
-        if (allStars.length === 1){
-            newStar.moveNewStar(1);
+}
+function checkStars(allStars){
+        if(allStars.length === 2){
+            allStars[1].moveNewStar(1);
         }
-        else if(allStars.length === 2){
-            newStar.moveNewStar(2);
+        else if (allStars.length === 3){
+            allStars[2].moveNewStar(2);
         }
 }
 function  addStar(allStars){
     if (allStars.length <=2){
         createNewStar(allStars);
     }
+    checkStars(allStars);
 }
-//Win 
-function playerWonGame(){
-    allStars.length === 3;
-}
+//Win
+const playerWonGame = allStars => allStars.length === 3;
 
 //When player reaches the water
-function reachWater(player){
-    player.y <0;
-}
+const reachWater = player => player.y < 0;
+
 function hidePlayer(player){
-    player.y = -1000;
+    return player.y = -1000;
 }
 function addSplash(splash, player){
     splash.x = player.x;
@@ -212,16 +212,16 @@ function startAgain(){
 }
 //Check if player wins
 function win(){
-    if (reachWater(player)){
+    if (reachWater(player)) {
                 window.removeEventListener('keyup', Keystroke);
                 hidePlayer(player);
                 addSplash(splash, player);
                 playAudio('splash.mp3');
-                addStar();
+                addStar(allStars);
                 window.setTimeout(startAgain, 2000);
                // window.setTimeout(youWon, 2000);
     }
-    if (playerWonGame()) {
+    if (playerWonGame(allStars)) {
 		window.setTimeout(callWinModal, 2000);
 		startAgain();
 	}
