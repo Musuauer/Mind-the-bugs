@@ -38,23 +38,32 @@ const allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enem
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    this.x += this.speed * dt;
-    if (this.x > 505) {
-        this.x = -350;
-     }
+    move(this, dt);
    
-     // Collision detection algorithm from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
-     if (player.x < this.x + 90 &&
-        player.x + 67 > this.x &&
-        player.y < this.y + 70 &&
-        50 + player.y > this.y)  {
-
-            var audio = new Audio('Crow.mp3');
-            audio.play();
-            startAgain();
-
-}
+	if (playerCollidedWithCrow(this)) {
+		playAudio('Crow.mp3');
+		startAgain();
+	}
 };
+
+function playerCollidedWithCrow(crow){
+	return player.x < crow.x + 90 &&
+        player.x + 67 > crow.x &&
+        player.y < crow.y + 70 &&
+        50 + player.y > crow.y;
+}
+
+function playAudio(path) {
+	var audio = new Audio(path);
+    audio.play();
+}
+
+function move(thing, dt) {
+	thing.x += thing.speed * dt;
+    if (thing.x > 505) {
+        thing.x = -350;
+     }
+}
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
@@ -99,6 +108,27 @@ class Player{
 const player = new Player(200, 405);
 player.update();
 
+//Hearts available as lives of the frog
+class Heart{
+    constructor(x,y){
+        this.x = x;
+        this.y = -10;
+        this.sprite = 'images/Heart.png';
+    }
+    render(){
+        this.sprite = 'images/Heart.png';
+        
+		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+}
+
+const heart1 = new Heart (360, -10);
+const heart2 = new Heart (410, -10);
+const heart3 = new Heart (460, -10);
+
+const allHearts = [heart1, heart2, heart3];
+
+
 //Star image to appear when the player reaches the water
 class Star{
     constructor(x,y){
@@ -106,12 +136,11 @@ class Star{
         this.y = -10;
         this.sprite = 'images/Star.png';
     }
-    moveNewStar(){
-        this.x += 50;
+    moveNewStar(starCount){
+        this.x = starCount * 50;
     }
     render(){
         this.sprite = 'images/Star.png';
-        
 		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
     }
@@ -135,51 +164,75 @@ class Splash{
     }
 }
 const splash = new Splash (-2000, 40);
-function youWon(){
-    toggleModal();
+
+
+// Manage stars
+function createNewStar(allStars){
+    let newStar = new Star(0, -10);
+        allStars.push(newStar);
+        if (allStars.length === 1){
+            newStar.moveNewStar(1);
+        }
+        else if(allStars.length === 2){
+            newStar.moveNewStar(2);
+        }
+}
+function  addStar(allStars){
+    if (allStars.length <=2){
+        createNewStar(allStars);
+    }
+}
+//Win 
+function playerWonGame(){
+    allStars.length === 3;
+}
+
+//When player reaches the water
+function reachWater(player){
+    player.y <0;
+}
+function hidePlayer(player){
+    player.y = -1000;
+}
+function addSplash(splash, player){
+    splash.x = player.x;
 }
 //Reset player's position if it reaches the water
-function startAgain(){
-    window.addEventListener('keyup', Keystroke);
-    splash.x = -2000;
+function resetPlayer(player){
     player.x = 200;
     player.y = 405;
 }
+function hideSplash(splash){
+    splash.x = -2000;
+}
+function startAgain(){
+    window.addEventListener('keyup', Keystroke);
+    hideSplash (splash);
+    resetPlayer(player);
+}
+//Check if player wins
 function win(){
-    if (player.y < 0){
-                player.y = -1000;
-                splash.x = player.x;
+    if (reachWater(player)){
                 window.removeEventListener('keyup', Keystroke);
-
-                if (allStars.length === 0){
-                    let newStar = new Star(0, -10);
-                    allStars.push(newStar);
-                }
-                else if(allStars.length === 1){
-                    let newStar = new Star(0, -10);
-                    newStar.moveNewStar();
-                    allStars.push(newStar);
-                }
-                else if(allStars.length === 2){
-                    let newStar = new Star(0, -10);
-                    newStar.moveNewStar();
-                    newStar.moveNewStar();
-                    allStars.push(newStar); 
-                    window.setTimeout(youWon, 2000);
-                }
-                
-
-
-               var audio = new Audio('splash.mp3');
-               audio.play();
-
-
-            window.setTimeout(startAgain, 2000);
+                hidePlayer(player);
+                addSplash(splash, player);
+                playAudio('splash.mp3');
+                addStar();
+                window.setTimeout(startAgain, 2000);
+               // window.setTimeout(youWon, 2000);
     }
-            
-
+    if (playerWonGame()) {
+		window.setTimeout(callWinModal, 2000);
+		startAgain();
+	}
 }
 
+function lost(){
+    
+}
+if (allHearts.length === 0){
+    lost();
+}
 
 // Keystroke listener
 function Keystroke(e){
@@ -194,7 +247,7 @@ function Keystroke(e){
 window.addEventListener('keyup', Keystroke);
 
 // -------------------------------------------MODAL-------------------------------------------//
-function toggleModal() {
+function callWinModal() {
 	congrats.classList.toggle('show-popup');
 }
 
