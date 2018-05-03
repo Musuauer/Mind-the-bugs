@@ -41,7 +41,9 @@ Enemy.prototype.update = function(dt) {
     move(this, dt);
    
 	if (playerCollidedWithCrow(this)) {
-		playAudio('Crow.mp3');
+        playAudio('Crow.mp3');
+        removeHeart();
+        checkHearts(allHearts);
 		startAgain();
 	}
 };
@@ -112,7 +114,7 @@ player.update();
 class Heart{
     constructor(x,y){
         this.x = x;
-        this.y = -10;
+        this.y = y;
         this.sprite = 'images/Heart.png';
     }
     render(){
@@ -122,12 +124,15 @@ class Heart{
 }
 }
 
-const heart1 = new Heart (360, -10);
-const heart2 = new Heart (410, -10);
-const heart3 = new Heart (460, -10);
+const heart1 = new Heart (370, 2);
+const heart2 = new Heart (420, 2);
+const heart3 = new Heart (470, 2);
 
 const allHearts = [heart1, heart2, heart3];
 
+function removeHeart(){
+    allHearts.shift();
+}
 
 //Star image to appear when the player reaches the water
 class Star{
@@ -228,11 +233,15 @@ function win(){
 }
 
 function lost(){
-    
+    alert('You lost!');
+    restartGame();
 }
-if (allHearts.length === 0){
-    lost();
+function checkHearts(allHearts){
+    if (allHearts.length === 0){
+        lost();
+    }
 }
+
 
 // Keystroke listener
 function Keystroke(e){
