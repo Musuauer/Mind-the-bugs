@@ -218,12 +218,12 @@ function win(){
                 addSplash(splash, player);
                 playAudio('splash.mp3');
                 addStar(allStars);
+                
                 window.setTimeout(startAgain, 2000);
                // window.setTimeout(youWon, 2000);
     }
     if (playerWonGame(allStars)) {
 		window.setTimeout(callWinModal, 2000);
-		startAgain();
 	}
 }
 
