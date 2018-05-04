@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>Effective JavaScript: Frogger</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 </head>
-<body>
-        <div class="popup">
-                <div class="popup-content">
-                    <div class="close-button">
-                        <i class="fa fa-repeat"></i>
-                    </div>
-                    
-                    <h1>Congrats!</h1>
-                    <h2>You won Three Stars!
 
-                </div>
+<body>
+    <div class="popup">
+        <div class="popup-content">
+
+            <h1>
+                <span id="game-result"></span>
+            </h1>
+
+            <div class="close-button">
+                <h2 id="button-text"></h2>
             </div>
+
+        </div>
+    </div>
+
+
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>
     <script src="js/engine.js"></script>
 </body>
+
 </html>

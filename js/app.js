@@ -2,12 +2,29 @@
 
 /* eslint-disable indent */
 //---------------------------modal----------
-const congrats = document.querySelector('.popup');
+const popupWindow = document.querySelector('.popup');
+let buttonText = document.querySelector('#button-text');
+let modalText = document.querySelector('#game-result');
 //---restart-from-modal
 const closeButton = document.querySelector('.close-button');
 closeButton.addEventListener('click', restartGame);
 
+function winModal(){
+    modalText.innerHTML = `Three Stars!
+                            Well done!`;
+    buttonText.innerHTML = 'I can do it better';
+    callModal();
+}
+function loseModal(){
+    modalText.innerHTML = `Good effort...
+                           But you lost :(`;
+    buttonText.innerHTML = 'Try again';
+    callModal();
+}
 
+function callModal() {
+	popupWindow.classList.toggle('show-popup');
+}
 //---------------ENEMIES-------------------
 
 class Enemy {
@@ -228,7 +245,7 @@ function win(){
                // window.setTimeout(youWon, 2000);
     }
     if (playerWonGame(allStars)) {
-		window.setTimeout(callWinModal, 2000);
+        winModal();
 	}
 }
 
@@ -238,7 +255,7 @@ function lost(){
 }
 function checkHearts(allHearts){
     if (allHearts.length === 0){
-        lost();
+        loseModal();
     }
 }
 
@@ -255,10 +272,7 @@ function Keystroke(e){
 }
 window.addEventListener('keyup', Keystroke);
 
-// -------------------------------------------MODAL-------------------------------------------//
-function callWinModal() {
-	congrats.classList.toggle('show-popup');
-}
+
 
 // -------------------------------------------RESTART--------------------------------------//
 
