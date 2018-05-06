@@ -1,9 +1,9 @@
 # Splash
 ### a frontend-nanodegree-arcade-game
-===============================
+===================================
 
 Interactive game following Udacity's rubric. 
-Functions **object-oriented**  
+Functions are **object-oriented**.
 
 ## Instructions
 
